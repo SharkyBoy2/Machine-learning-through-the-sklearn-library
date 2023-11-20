@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import linear_model
+
+
+df = pd.read_excel('cian.xlsx')
+
+print(df)
+
+
+filtered_df = df[df['area_all'].astype(str).str.contains('100')]
+
+filtered_df
+
+
+
+%matplotlib inline
+plt.scatter(df.area_all, df.price_2)
+plt.xlabel('площадь (кв.м.)')
+plt.ylabel('стоимость (руб)')
+
+
+
+
+
+reg = linear_model.LinearRegression() #создаем модель
+
+reg.fit(df[["area_all"]], df.price_2)
+
+
+
+reg.predict([[46]])
+
+gg = reg.predict(df[['area_all']])
+
+
+offers_list = []
+for value in gg:
+    offers_list.append([value])
+
+df = pd.DataFrame(offers_list)
+
+
+df.to_excel('offers_data_1.xlsx', index=False)
+
